@@ -37,7 +37,6 @@ def getAllActions():
         marvinSmile,
         marvinStrip,
         marvinTimeToBBQ,
-        marvinBirthday,
         marvinNameday,
         marvinUptime,
         marvinStream,
@@ -413,34 +412,6 @@ def thirdFridayIn(y, m):
     # Return the friday in the third week
     return cal.monthdatescalendar(y, m)[THIRD][FRIDAY]
 
-
-def marvinBirthday(row):
-    """
-    Check birthday info
-    """
-    msg = None
-    if any(r in row for r in ["birthday", "födelsedag"]):
-        try:
-            url = getString("birthday", "url")
-            soup = BeautifulSoup(urlopen(url), "html.parser")
-            my_list = list()
-
-            for ana in soup.findAll('a'):
-                if ana.parent.name == 'strong':
-                    my_list.append(ana.getText())
-
-            my_list.pop()
-            my_strings = ', '.join(my_list)
-            if not my_strings:
-                msg = getString("birthday", "nobody")
-            else:
-                msg = getString("birthday", "somebody").format(my_strings)
-
-        except Exception as e:
-            LOG.error("Failed to get birthday: %s", e)
-            msg = getString("birthday", "error")
-
-    return msg
 
 def marvinNameday(row):
     """
