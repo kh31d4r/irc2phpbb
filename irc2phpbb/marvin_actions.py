@@ -10,7 +10,12 @@ import datetime
 import json
 import logging
 import random
+
+from importlib import resources as impresources
+
 import requests
+
+from . import data as pkgdata
 
 
 LOG = logging.getLogger("action")
@@ -45,7 +50,8 @@ def getAllActions():
 
 
 # Load all strings from file
-with open("marvin_strings.json", encoding="utf-8") as f:
+strings = impresources.files(pkgdata) / "marvin_strings.json"
+with open(strings, encoding="utf-8") as f:
     STRINGS = json.load(f)
 
 
